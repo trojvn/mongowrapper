@@ -14,21 +14,21 @@ class MongoBaseLogger(MongoUser):
         return datetime.utcnow().strftime("%F %T.%f")
 
     def debug(self, msg: str):
-        message = {"_id": self.date, T.TYPE: T.DEBUG.value, T.MSG.value: msg}
+        message = {"_id": self.date, T.TYPE.value: T.DEBUG.value, T.MSG.value: msg}
         self.collection.insert_one(message)
 
     def info(self, msg: str):
-        message = {"_id": self.date, T.TYPE: T.INFO.value, T.MSG.value: msg}
+        message = {"_id": self.date, T.TYPE.value: T.INFO.value, T.MSG.value: msg}
         self.collection.insert_one(message)
 
     def success(self, msg: str):
-        message = {"_id": self.date, T.TYPE: T.SUCCESS.value, T.MSG.value: msg}
+        message = {"_id": self.date, T.TYPE.value: T.SUCCESS.value, T.MSG.value: msg}
         self.collection.insert_one(message)
 
     def warning(self, msg: str):
-        message = {"_id": self.date, T.TYPE: T.WARNING.value, T.MSG.value: msg}
+        message = {"_id": self.date, T.TYPE.value: T.WARNING.value, T.MSG.value: msg}
         self.collection.insert_one(message)
 
     def error(self, msg: str):
-        message = {"_id": self.date, T.TYPE: T.ERROR.value, T.MSG.value: msg}
+        message = {"_id": self.date, T.TYPE.value: T.ERROR.value, T.MSG.value: msg}
         self.collection.insert_one(message)
