@@ -15,5 +15,5 @@ class MongoBase(MongoClient):
         )
 
     @property
-    def options(self) -> MongoOptions:
+    def mongo_options(self) -> MongoOptions:
         return self.__options

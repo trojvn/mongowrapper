@@ -9,12 +9,12 @@ class MongoAdmin(MongoBase):
         super().__init__(options)
 
     def create_user(self):
-        roles = [{"role": "readWrite", "db": self.options.db_name}]
+        roles = [{"role": "readWrite", "db": self.mongo_options.db_name}]
         try:
-            self[self.options.db_name].command(
+            self[self.mongo_options.db_name].command(
                 "createUser",
-                self.options.user,
-                pwd=self.options.pswd,
+                self.mongo_options.user,
+                pwd=self.mongo_options.pswd,
                 roles=roles,
             )
         except OperationFailure as e:

@@ -12,7 +12,7 @@ class MongoUser(MongoBase):
 
     @property
     def db(self) -> Database:
-        return self[self.options.db_name]
+        return self[self.mongo_options.db_name]
 
     @property
     def collection(self) -> Collection:
