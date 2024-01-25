@@ -18,6 +18,7 @@ class MongoUser(MongoBase):
         user, pswd = user if user else DB_USER, pswd if pswd else DB_PSWD
         self.__db_name = db_name if db_name else DB_NAME
         print(self.__db_name)
+        print(DB_NAME, DB_USER, DB_PSWD)
         self.__collection = collection
         super().__init__(user, pswd, db_name)
 
