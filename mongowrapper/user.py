@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pymongo.collection import Collection
 from pymongo.database import Database
 
@@ -6,13 +8,21 @@ from mongowrapper.consts import DB_USER, DB_PSWD, DB_NAME
 
 
 class MongoUser(MongoBase):
-    def __init__(self, collection: str):
-        super().__init__(DB_USER, DB_PSWD, DB_NAME)
+    def __init__(
+        self,
+        collection: str,
+        user: Optional[str] = None,
+        pswd: Optional[str] = None,
+        db_name: Optional[str] = None,
+    ):
+        user, pswd = user if user else DB_USER, pswd if pswd else DB_PSWD
+        self.__db_name = db_name if db_name else DB_NAME
         self.__collection = collection
+        super().__init__(user, pswd, db_name)
 
     @property
     def db(self) -> Database:
-        return self[DB_NAME]
+        return self[self.__db_name]
 
     @property
     def collection(self) -> Collection:
