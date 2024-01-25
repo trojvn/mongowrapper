@@ -1,12 +1,13 @@
 from datetime import datetime
 
 from mongowrapper.logger.consts import T
+from mongowrapper.models import MongoOptions
 from mongowrapper.user import MongoUser
 
 
 class MongoBaseLogger(MongoUser):
-    def __init__(self, collection: str):
-        super().__init__(collection)
+    def __init__(self, options: MongoOptions, collection: str):
+        super().__init__(options, collection)
 
     @property
     def date(self) -> str:

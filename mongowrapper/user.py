@@ -1,30 +1,18 @@
-from typing import Optional
-
 from pymongo.collection import Collection
 from pymongo.database import Database
 
 from mongowrapper.base import MongoBase
-from mongowrapper.consts import DB_USER, DB_PSWD, DB_NAME
+from mongowrapper.models import MongoOptions
 
 
 class MongoUser(MongoBase):
-    def __init__(
-        self,
-        collection: str,
-        user: Optional[str] = None,
-        pswd: Optional[str] = None,
-        db_name: Optional[str] = None,
-    ):
-        user, pswd = user if user else DB_USER, pswd if pswd else DB_PSWD
-        self.__db_name = db_name if db_name else DB_NAME
-        print(self.__db_name)
-        print(DB_NAME, DB_USER, DB_PSWD)
+    def __init__(self, options: MongoOptions, collection: str):
         self.__collection = collection
-        super().__init__(user, pswd, db_name)
+        super().__init__(options)
 
     @property
     def db(self) -> Database:
-        return self[self.__db_name]
+        return self[self.options.db_name]
 
     @property
     def collection(self) -> Collection:
@@ -32,7 +20,8 @@ class MongoUser(MongoBase):
 
 
 if __name__ == "__main__":
-    root = MongoUser("logs")
+    _options = MongoOptions("test", "test", "test")
+    root = MongoUser(_options, "logs")
     db = root.db
     db.drop_collection(root.collection)
     logs = root.collection

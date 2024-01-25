@@ -2,13 +2,14 @@ from typing import Optional
 
 from mongowrapper.logger.base import MongoBaseLogger
 from mongowrapper.logger.consts import T
+from mongowrapper.models import MongoOptions
 
 
 class MongoAdminLogger(MongoBaseLogger):
-    def __init__(self, app: Optional[str] = None):
+    def __init__(self, options: MongoOptions, app: Optional[str] = None):
         if app and not app.startswith("."):
             app = f".{app}"
-        super().__init__(f"admin.logs{app if app else ''}")
+        super().__init__(options, f"admin.logs{app if app else ''}")
 
     def exception(self, e: Exception):
         message = {
@@ -20,7 +21,8 @@ class MongoAdminLogger(MongoBaseLogger):
 
 
 if __name__ == "__main__":
-    logger = MongoAdminLogger()
+    _options = MongoOptions("test", "test", "test")
+    logger = MongoAdminLogger(_options)
     try:
         raise ValueError("Error")
     except Exception as E:

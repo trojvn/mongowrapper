@@ -1,17 +1,19 @@
-from dotenv import load_dotenv
 from pymongo import MongoClient
 
-from mongowrapper.consts import DB_HOST, DB_PORT
-
-load_dotenv()
+from mongowrapper.models import MongoOptions
 
 
 class MongoBase(MongoClient):
-    def __init__(self, user: str, pswd: str, db_name: str):
+    def __init__(self, options: MongoOptions):
+        self.__options = options
         super().__init__(
-            host=DB_HOST,
-            port=DB_PORT,
-            username=user,
-            password=pswd,
-            authSource=db_name,
+            host=options.host,
+            port=options.port,
+            username=options.user,
+            password=options.pswd,
+            authSource=options.db_name,
         )
+
+    @property
+    def options(self) -> MongoOptions:
+        return self.__options
