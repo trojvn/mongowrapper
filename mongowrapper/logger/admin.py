@@ -1,10 +1,14 @@
+from typing import Optional
+
 from mongowrapper.logger.base import MongoBaseLogger
 from mongowrapper.logger.consts import T
 
 
 class MongoAdminLogger(MongoBaseLogger):
-    def __init__(self):
-        super().__init__("admin.logs")
+    def __init__(self, app: Optional[str] = None):
+        if app and not app.startswith("."):
+            app = f".{app}"
+        super().__init__(f"admin.logs{app if app else ''}")
 
     def exception(self, e: Exception):
         message = {
