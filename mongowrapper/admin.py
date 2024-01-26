@@ -23,11 +23,11 @@ class MongoAdmin(MongoBase):
             elif "already exists" not in str(e):
                 print(e)
 
-    def create_info_for_user(self, port: int):
+    def create_info_for_user(self, port: int, pswd: str):
         data = {
             "_id": port,
             "name": self.mongo_options.user,
-            "password": self.mongo_options.pswd,
+            "password": pswd,
         }
         self["customers"]["info"].insert_one(data)
 
@@ -35,4 +35,4 @@ class MongoAdmin(MongoBase):
 if __name__ == "__main__":
     _options = MongoOptions("test", "test", "test", root_pswd="asd")
     MongoAdmin(_options).create_user()
-    MongoAdmin(_options).create_info_for_user(2400)
+    MongoAdmin(_options).create_info_for_user(2400, "pswd")
