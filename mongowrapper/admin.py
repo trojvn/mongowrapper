@@ -6,7 +6,7 @@ from mongowrapper.models import MongoOptions
 
 class MongoAdmin(MongoBase):
     def __init__(self, options: MongoOptions):
-        super().__init__(options)
+        super().__init__(options, True)
 
     def create_user(self):
         roles = [{"role": "readWrite", "db": self.mongo_options.db_name}]
@@ -23,11 +23,11 @@ class MongoAdmin(MongoBase):
             elif "already exists" not in str(e):
                 print(e)
 
-    def create_info_for_user(self, port: int, pswd: str):
+    def create_info_for_user(self, port: int):
         data = {
             "_id": port,
             "name": self.mongo_options.user,
-            "password": pswd,
+            "password": self.mongo_options.pswd,
         }
         self["customers"]["info"].insert_one(data)
 
@@ -35,4 +35,4 @@ class MongoAdmin(MongoBase):
 if __name__ == "__main__":
     _options = MongoOptions("test", "test", "test", root_pswd="asd")
     MongoAdmin(_options).create_user()
-    MongoAdmin(_options).create_info_for_user(2400, "pswd")
+    MongoAdmin(_options).create_info_for_user(2400)
