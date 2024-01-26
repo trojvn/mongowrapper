@@ -9,3 +9,4 @@ class T(Enum):
     SUCCESS = "success/успешно"
     WARNING = "warning/предупреждение"
     ERROR = "error/ошибка"
+    CRITICAL = "critical/критическая ошибка"

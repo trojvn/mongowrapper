@@ -32,3 +32,7 @@ class MongoBaseLogger(MongoUser):
     def error(self, msg: str):
         message = {"_id": self.date, T.TYPE.value: T.ERROR.value, T.MSG.value: msg}
         self.collection.insert_one(message)
+
+    def critical(self, msg: str):
+        message = {"_id": self.date, T.TYPE.value: T.CRITICAL.value, T.MSG.value: msg}
+        self.collection.insert_one(message)
