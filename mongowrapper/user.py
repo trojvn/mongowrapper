@@ -1,3 +1,5 @@
+import contextlib
+
 from pymongo.collection import Collection
 from pymongo.database import Database
 
@@ -17,6 +19,13 @@ class MongoUser(MongoBase):
     @property
     def collection(self) -> Collection:
         return self.db[self.__collection]
+
+    def check_auth(self) -> bool:
+        """Проверка авторизации"""
+        with contextlib.suppress(Exception):
+            self.collection.find_one({"_id": 1})
+            return True
+        return False
 
 
 if __name__ == "__main__":
