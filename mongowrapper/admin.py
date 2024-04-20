@@ -38,26 +38,24 @@ class MongoAdmin(MongoClient):
         if not self["customers"]["info"].find_one_and_update(find_data, update_data):
             self["customers"]["info"].insert_one(data)
 
-
-def main():
-    user, pswd = sys.argv[1], sys.argv[2]
-    if not user and not pswd:
-        return print("Заполните аргументы: admin.py user pswd")
-    try:
-        m = MongoAdmin()
-        if not m.create_user(user, pswd):
-            return
-    except Exception as e:
-        return logging.exception(e)
-    try:
-        for options in m["customers"]["info"].find({}):
-            port, name = options.get("_id"), options.get("name")
-            print(f"Порт: {port} -> {name}")
-        port = int(input("Введите порт: "))
-        m.create_info_for_user(user, pswd, port)
-    except Exception as e:
-        logging.exception(e)
+    def main(self):
+        user, pswd = sys.argv[1], sys.argv[2]
+        if not user and not pswd:
+            return print("Заполните аргументы: admin.py user pswd")
+        try:
+            if not self.create_user(user, pswd):
+                return
+        except Exception as e:
+            return logging.exception(e)
+        try:
+            for options in self["customers"]["info"].find({}):
+                port, name = options.get("_id"), options.get("name")
+                print(f"Порт: {port} -> {name}")
+            port = int(input("Введите порт: "))
+            self.create_info_for_user(user, pswd, port)
+        except Exception as e:
+            logging.exception(e)
 
 
 if __name__ == "__main__":
-    main()
+    MongoAdmin().main()
