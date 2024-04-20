@@ -26,12 +26,3 @@ class MongoUser(MongoBase):
             self.collection.find_one({"_id": 1})
             return True
         return False
-
-
-if __name__ == "__main__":
-    _options = MongoOptions("test", "test", "test")
-    root = MongoUser(_options, "logs")
-    db = root.db
-    db.drop_collection(root.collection)
-    logs = root.collection
-    logs.insert_one({"test": 1})
