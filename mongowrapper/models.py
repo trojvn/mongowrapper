@@ -7,7 +7,7 @@ class MongoOptions:
     user: str
     pswd: str
     db_name: Optional[str] = None
-    host: str = "95.217.106.245"
+    host: str = "db1.yuharan.ru"
     port: int = 27017
 
     def __post_init__(self):
