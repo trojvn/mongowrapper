@@ -8,7 +8,7 @@ from pymongo.errors import OperationFailure
 
 load_dotenv()
 PSWD, HOST = os.getenv("PSWD"), os.getenv("HOST", "localhost")
-PORT = int(os.getenv("PORT", 27017))
+PORT = int(os.getenv("PORT", "27017"))
 
 
 class MongoAdmin(MongoClient):

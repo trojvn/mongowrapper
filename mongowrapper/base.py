@@ -5,15 +5,20 @@ from mongowrapper.models import MongoOptions
 
 class MongoBase(MongoClient):
     def __init__(self, options: MongoOptions):
-        self.__options = options
-        super().__init__(
-            host=options.host,
-            port=options.port,
-            username=options.user,
-            password=options.pswd,
-            authSource=options.db_name,
-        )
+        self.__mongo_options = options
+        while True:
+            try:
+                super().__init__(
+                    host=options.host,
+                    port=options.port,
+                    username=options.user,
+                    password=options.pswd,
+                    authSource=options.db_name,
+                )
+                break
+            except Exception:
+                pass
 
     @property
     def mongo_options(self) -> MongoOptions:
-        return self.__options
+        return self.__mongo_options
