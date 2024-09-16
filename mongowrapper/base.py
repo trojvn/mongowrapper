@@ -14,6 +14,7 @@ class MongoBase(MongoClient):
                     username=options.user,
                     password=options.pswd,
                     authSource=options.db_name,
+                    connectTimeoutMS=60000,
                 )
                 break
             except Exception:
