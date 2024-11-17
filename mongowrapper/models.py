@@ -1,12 +1,11 @@
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
 class MongoOptions:
     user: str
     pswd: str
-    db_name: Optional[str] = None
+    db_name: str = ""
     host: str = "db1.yuharan.ru"
     port: int = 27017
 
