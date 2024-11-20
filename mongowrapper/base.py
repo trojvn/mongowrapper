@@ -1,6 +1,8 @@
+import logging
+
 from pymongo import MongoClient
 
-from mongowrapper.models import MongoOptions
+from .models import MongoOptions
 
 
 class MongoBase(MongoClient):
@@ -14,11 +16,11 @@ class MongoBase(MongoClient):
                     username=options.user,
                     password=options.pswd,
                     authSource=options.db_name,
-                    connectTimeoutMS=60000,
+                    connectTimeoutMS=options.timeout,
                 )
                 break
-            except Exception:
-                pass
+            except Exception as e:
+                logging.exception(e)
 
     @property
     def mongo_options(self) -> MongoOptions:
