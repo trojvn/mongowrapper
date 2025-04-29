@@ -1,27 +1,49 @@
 import logging
 
-from pymongo import MongoClient
+from pymongo import AsyncMongoClient, MongoClient
 
-from .models import MongoOptions
+from mongowrapper.models import MongoOptions
 
 
-class MongoBase(MongoClient):
+class MongoBase:
     def __init__(self, options: MongoOptions):
-        self.__mongo_options = options
+        self.__logger = logging.getLogger("mongowrapper")
+        self._mongo_options = options
+        self._client = self.__get_client()
+
+    def __get_client(self) -> MongoClient:
         while True:
             try:
-                super().__init__(
-                    host=options.host,
-                    port=options.port,
-                    username=options.user,
-                    password=options.pswd,
-                    authSource=options.db_name,
-                    connectTimeoutMS=options.timeout,
+                return MongoClient(
+                    host=self._mongo_options.host,
+                    port=self._mongo_options.port,
+                    username=self._mongo_options.user,
+                    password=self._mongo_options.pswd,
+                    authSource=self._mongo_options.db_name,
+                    connectTimeoutMS=self._mongo_options.timeout,
+                    serverSelectionTimeoutMS=self._mongo_options.timeout,
                 )
-                break
             except Exception as e:
-                logging.exception(e)
+                self.__logger.exception(e)
 
-    @property
-    def mongo_options(self) -> MongoOptions:
-        return self.__mongo_options
+
+class MongoAsyncBase:
+    def __init__(self, options: MongoOptions):
+        self.__logger = logging.getLogger("mongowrapper")
+        self._mongo_options = options
+        self._client = self.__get_client()
+
+    def __get_client(self) -> AsyncMongoClient:
+        while True:
+            try:
+                return AsyncMongoClient(
+                    host=self._mongo_options.host,
+                    port=self._mongo_options.port,
+                    username=self._mongo_options.user,
+                    password=self._mongo_options.pswd,
+                    authSource=self._mongo_options.db_name,
+                    connectTimeoutMS=self._mongo_options.timeout,
+                    serverSelectionTimeoutMS=self._mongo_options.timeout,
+                )
+            except Exception as e:
+                self.__logger.exception(e)
