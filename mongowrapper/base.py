@@ -21,7 +21,6 @@ class MongoBase:
                     password=self._mongo_options.pswd,
                     authSource=self._mongo_options.db_name,
                     connectTimeoutMS=self._mongo_options.timeout,
-                    serverSelectionTimeoutMS=self._mongo_options.timeout,
                 )
             except Exception as e:
                 self.__logger.exception(e)
@@ -43,7 +42,6 @@ class MongoAsyncBase:
                     password=self._mongo_options.pswd,
                     authSource=self._mongo_options.db_name,
                     connectTimeoutMS=self._mongo_options.timeout,
-                    serverSelectionTimeoutMS=self._mongo_options.timeout,
                 )
             except Exception as e:
                 self.__logger.exception(e)
