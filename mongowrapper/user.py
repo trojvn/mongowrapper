@@ -1,4 +1,3 @@
-import asyncio
 import contextlib
 
 from pymongo.asynchronous.collection import AsyncCollection
@@ -50,10 +49,3 @@ class MongoUserAsync(MongoAsyncBase):
             await self.collection.find_one({"_id": 1})
             return True
         return False
-
-    def __del__(self):
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            loop.create_task(self.close())
-        else:
-            loop.run_until_complete(self.close())
