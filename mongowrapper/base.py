@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from pymongo import AsyncMongoClient, MongoClient
@@ -45,3 +46,13 @@ class MongoAsyncBase:
                 )
             except Exception as e:
                 self.__logger.exception(e)
+
+    async def close(self):
+        await self._client.close()
+
+    def __del__(self):
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            loop.create_task(self.close())
+        else:
+            loop.run_until_complete(self.close())
